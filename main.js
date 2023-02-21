@@ -9,6 +9,10 @@ const img05 = document.querySelector('#animal-05');
 const img06 = document.querySelector('#animal-06');
 let firstCard = "";
 let secondCard = "";
+let sec = 0;
+let min = 0;
+let hour = 0;
+let isGameStart = false;
 
 const imgBack = "img/card-back.png"
 const images = [
@@ -38,7 +42,7 @@ function sortImages(ImagesDuplicate) {
 }
 
 function matchImages(img) {
-    debugger
+
     if (!firstCard) {
         firstCard = img.src;
         setTimeout(() => {
@@ -61,15 +65,7 @@ function matchImages(img) {
 
     }
 
-    console.log(firstCard)
-    console.log(secondCard)
-
-
 }
-
-
-
-
 
 
 const randomImages = sortImages(ImagesDuplicate);
@@ -78,10 +74,56 @@ function showImages() {
         img.addEventListener('click', () => {
             img.setAttribute('src', `img/${randomImages[index]}.png`);
             matchImages(img)
-
+            //if clicked the game is not starting, so call startChronometer and start the game with true. this stop in the first click and don't enter in another cards because the game is already true (started);
+            if (!isGameStart) {
+                startChronometer();
+                isGameStart = true;
+            }
         })
 
     })
 }
 showImages()
 
+function tick() {
+
+    sec++;
+    if (sec >= 60) {
+        sec = 0
+        min++;
+    } else if (min >= 60) {
+        min = 0;
+        hour++;
+    }
+
+    //if match all images
+    //if click to start new game 
+    // clearChronometer()
+
+
+}
+
+function startChronometer() {
+    tick()
+
+    const format = (hour < 10 ? '0' + hour : hour) + ':' + (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
+    timer.innerText = `Time: ${format}`;
+    incrementChronometer()
+}
+
+function incrementChronometer() {
+    let chron = setTimeout(startChronometer, 1000);
+}
+// let chron = setTimeout(startChronometer, 1000);
+// function stopChronometer(chron) {
+//     clearInterval(chron);
+
+// }
+// function clearChronometer(chron) {
+//     clearInterval(chron);
+//     timer.innerText = `Time: 00:00:00`;
+//     let sec = 0;
+//     let min = 0;
+//     let hour = 0;
+
+// }
