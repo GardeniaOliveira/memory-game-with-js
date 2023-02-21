@@ -79,3 +79,30 @@ footer {
   transform: rotateY(180deg);
   transition: 0.5s;
 } */
+
+.modal {
+  width: 90%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  background-color: var(--purple);
+  color: white;
+  position: absolute;
+  border-radius: 5px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.modal p:first-child {
+  font-size: 30px;
+}
+.time-modal {
+  font-size: 80px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.hidden-modal {
+  visibility: hidden;
+}

@@ -1,12 +1,8 @@
 const timer = document.querySelector('#timer');
 const btnRestart = document.querySelector('#btn-restart');
 const cardImages = document.querySelectorAll('.animals-img');
-const img01 = document.querySelector('#animal-01');
-const img02 = document.querySelector('#animal-02');
-const img03 = document.querySelector('#animal-03');
-const img04 = document.querySelector('#animal-04');
-const img05 = document.querySelector('#animal-05');
-const img06 = document.querySelector('#animal-06');
+const timeModal = document.querySelector('.time-modal');
+const modal = document.querySelector('.modal');
 let firstCard = "";
 let secondCard = "";
 let sec = 0;
@@ -99,7 +95,6 @@ function showImages() {
                 counterMatch = counterMatch + 1;
                 console.log(counterMatch)
                 if (counterMatch === ImagesDuplicate.length) {
-                    alert('finished');
                     pauseChronometer()
 
                 }
@@ -120,6 +115,7 @@ function startChronometer() {
 }
 function pauseChronometer() {
     clearInterval(chron);
+    showModal();
 }
 function tick() {
     sec++;
@@ -132,6 +128,7 @@ function tick() {
     }
     const format = (hour < 10 ? '0' + hour : hour) + ':' + (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
     timer.innerText = `Time: ${format}`;
+    timeModal.innerText = format;
 
 
 }
@@ -145,7 +142,12 @@ function clearChronometer() {
 
 }
 
-btnRestart.addEventListener("click", () => {
+function showModal() {
+    modal.classList.remove('hidden-modal');
+    btnRestart.addEventListener("click", () => {
 
-    clearChronometer();
-});
+        clearChronometer();
+        window.location.reload();
+    });
+
+}
