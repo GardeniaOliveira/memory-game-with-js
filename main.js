@@ -113,8 +113,15 @@ function showImages() {
 }
 showImages()
 
-function tick() {
 
+
+function startChronometer() {
+    chron = setInterval(() => { tick(); }, 1000);
+}
+function pauseChronometer() {
+    clearInterval(chron);
+}
+function tick() {
     sec++;
     if (sec >= 60) {
         sec = 0
@@ -123,37 +130,22 @@ function tick() {
         min = 0;
         hour++;
     }
-}
-
-function startChronometer() {
-    tick()
-
     const format = (hour < 10 ? '0' + hour : hour) + ':' + (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
     timer.innerText = `Time: ${format}`;
-    incrementChronometer()
+
+
 }
 
-function incrementChronometer() {
-    let chron = setTimeout(startChronometer, 1000);
-}
-
-function pauseChronometer() {
-    let chron = setInterval(() => { tick(); }, 1000);
+function clearChronometer() {
     clearInterval(chron);
+    timer.innerText = `Time: 00:00:00`;
+    sec = 0;
+    min = 0;
+    hour = 0;
+
 }
-
-
-// function clearChronometer(chron) {
-//     clearInterval(chron);
-//     timer.innerText = `Time: 00:00:00`;
-//     let sec = 0;
-//     let min = 0;
-//     let hour = 0;
-
-// }
 
 btnRestart.addEventListener("click", () => {
 
-    pauseChronometer();
-    console.log('passou aqui')
+    clearChronometer();
 });
