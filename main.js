@@ -12,7 +12,10 @@ let secondCard = "";
 let sec = 0;
 let min = 0;
 let hour = 0;
+let chron;
 let isGameStart = false;
+let isMatch = false;
+let counterMatch = 0;
 
 const imgBack = "img/card-back.png"
 const images = [
@@ -24,8 +27,6 @@ ImagesDuplicate = images.reduce((newArray, element) => {
 
     return newArray;
 }, []);
-console.log(ImagesDuplicate)
-
 
 window.onload = function changeImages() {
     cardImages.forEach((img) => {
@@ -58,12 +59,25 @@ function matchImages(img) {
         setTimeout(() => {
             img.setAttribute('src', 'img/card-back.png');
             // img.classList.add('transition');
-
         }, 1000)
-        secondCard = "";
         firstCard = "";
+        secondCard = img.src;
+
 
     }
+    //else if (firstCard === secondCard) {
+    //     isMatch = true;
+    //     counterMatch = counterMatch + 1;
+    //     console.log(counterMatch)
+    //     if (counterMatch === ImagesDuplicate.length) {
+    //         alert('finished');
+    //         pauseChronometer()
+
+    //     }
+    // }
+
+    // console.log(firstCard)
+    // console.log(secondCard)
 
 }
 
@@ -73,12 +87,26 @@ function showImages() {
     cardImages.forEach((img, index) => {
         img.addEventListener('click', () => {
             img.setAttribute('src', `img/${randomImages[index]}.png`);
-            matchImages(img)
+
             //if clicked the game is not starting, so call startChronometer and start the game with true. this stop in the first click and don't enter in another cards because the game is already true (started);
             if (!isGameStart) {
                 startChronometer();
                 isGameStart = true;
             }
+            matchImages(img);
+            if (firstCard === secondCard) {
+                isMatch = true;
+                counterMatch = counterMatch + 1;
+                console.log(counterMatch)
+                if (counterMatch === ImagesDuplicate.length) {
+                    alert('finished');
+                    pauseChronometer()
+
+                }
+            }
+
+            console.log(firstCard)
+            console.log(secondCard)
         })
 
     })
@@ -95,12 +123,6 @@ function tick() {
         min = 0;
         hour++;
     }
-
-    //if match all images
-    //if click to start new game 
-    // clearChronometer()
-
-
 }
 
 function startChronometer() {
@@ -114,11 +136,13 @@ function startChronometer() {
 function incrementChronometer() {
     let chron = setTimeout(startChronometer, 1000);
 }
-// let chron = setTimeout(startChronometer, 1000);
-// function stopChronometer(chron) {
-//     clearInterval(chron);
 
-// }
+function pauseChronometer() {
+    let chron = setInterval(() => { tick(); }, 1000);
+    clearInterval(chron);
+}
+
+
 // function clearChronometer(chron) {
 //     clearInterval(chron);
 //     timer.innerText = `Time: 00:00:00`;
@@ -127,3 +151,9 @@ function incrementChronometer() {
 //     let hour = 0;
 
 // }
+
+btnRestart.addEventListener("click", () => {
+
+    pauseChronometer();
+    console.log('passou aqui')
+});
