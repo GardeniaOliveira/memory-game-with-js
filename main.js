@@ -24,48 +24,32 @@ ImagesDuplicate = images.reduce((newArray, element) => {
 console.log(ImagesDuplicate);
 const randomImages = sortImages(ImagesDuplicate);
 
-function turnRandomImages(div) {
-    div.classList.add('turn');
-}
 const showImages = () => {
     debugger
     const divCards = document.querySelectorAll('.card');
-    const imgCards = document.querySelectorAll('.card .front');
-    // console.log(divCards);
-    // console.log(imgCards);
+    const imgCardsFront = document.querySelectorAll('.card .front');
 
     divCards.forEach((div) => {
         div.addEventListener('click', () => {
-            turnRandomImages(div);
+            div.classList.add('turn');
+            setTimeout(() => {
+                div.classList.remove('turn');
+            }, 1000)
+            // turnRandomImages(div);
             // if clicked the game is not starting, so call startChronometer and start the game with true.this stop in the first click and don't enter in another cards because the game is already true (started);
             if (!isGameStart) {
                 startChronometer();
                 isGameStart = true;
             }
-            // imgCards.forEach((img, index) => {
-            //     img.src = `img/${randomImages[index]}.png`;
-            //     console.log(index);
-            // })
+
         });
 
-
-        // img.classList.add('turn');
-
-
-
-
-        //if clicked the game is not starting, so call startChronometer and start the game with true. this stop in the first click and don't enter in another cards because the game is already true (started);
-        //     if (!isGameStart) {
-        //         startChronometer();
-        //         isGameStart = true;
-        //     }
-
     })
-    imgCards.forEach((img, index) => {
+    imgCardsFront.forEach((img, index) => {
         img.src = `img/${randomImages[index]}.png`;
     })
 
-    console.log(imgCards)
+    console.log(imgCardsFront)
 }
 // setTimeout(turnRandomImages, 1000);
 function createCard() {
@@ -132,7 +116,7 @@ loadGame()
 
 
 //     } else if (firstCard === secondCard) {
-//         console.log('teste', firstCard, secondCard)
+//         console.log('test', firstCard, secondCard)
 //         isMatch = true;
 //         counterMatch = counterMatch + 1;
 //         console.log(counterMatch)
@@ -147,28 +131,6 @@ loadGame()
 //     console.log(secondCard)
 
 // }
-
-
-
-// function showImages() {
-//     cardImages.forEach((img, index) => {
-//         debugger
-//         img.addEventListener('click', () => {
-//             img.setAttribute('src', `img/${randomImages[index]}.png`);
-
-//             //if clicked the game is not starting, so call startChronometer and start the game with true. this stop in the first click and don't enter in another cards because the game is already true (started);
-//             if (!isGameStart) {
-//                 startChronometer();
-//                 isGameStart = true;
-//             }
-//             matchImages(img);
-
-//         })
-
-//     })
-// }
-// showImages()
-
 
 
 function startChronometer() {

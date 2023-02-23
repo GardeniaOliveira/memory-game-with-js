@@ -101,6 +101,7 @@ img {
 .turn {
   transform: rotateY(180deg);
 }
+
 footer {
   height: 40px;
   color: var(--purple);
