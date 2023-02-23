@@ -1,7 +1,6 @@
 const timer = document.querySelector('#timer');
 const btnRestart = document.querySelector('#btn-restart');
 const cardContainer = document.querySelector('.card-container');
-const teste = document.querySelector('.teste');
 const timeModal = document.querySelector('.time-modal');
 const modal = document.querySelector('.modal');
 let firstCard = "";
@@ -13,7 +12,6 @@ let chron;
 let isGameStart = false;
 let isMatch = false;
 let counterMatch = 0;
-const imgBack = "img/card-back.png"
 const images = [
     "img01", "img02", "img03", "img04", "img05", "img06"
 ];
@@ -23,9 +21,54 @@ ImagesDuplicate = images.reduce((newArray, element) => {
 
     return newArray;
 }, []);
+console.log(ImagesDuplicate);
 const randomImages = sortImages(ImagesDuplicate);
 
-function createCard(img) {
+function turnRandomImages(div) {
+    div.classList.add('turn');
+}
+const showImages = () => {
+    debugger
+    const divCards = document.querySelectorAll('.card');
+    const imgCards = document.querySelectorAll('.card .front');
+    // console.log(divCards);
+    // console.log(imgCards);
+
+    divCards.forEach((div) => {
+        div.addEventListener('click', () => {
+            turnRandomImages(div);
+            // if clicked the game is not starting, so call startChronometer and start the game with true.this stop in the first click and don't enter in another cards because the game is already true (started);
+            if (!isGameStart) {
+                startChronometer();
+                isGameStart = true;
+            }
+            // imgCards.forEach((img, index) => {
+            //     img.src = `img/${randomImages[index]}.png`;
+            //     console.log(index);
+            // })
+        });
+
+
+        // img.classList.add('turn');
+
+
+
+
+        //if clicked the game is not starting, so call startChronometer and start the game with true. this stop in the first click and don't enter in another cards because the game is already true (started);
+        //     if (!isGameStart) {
+        //         startChronometer();
+        //         isGameStart = true;
+        //     }
+
+    })
+    imgCards.forEach((img, index) => {
+        img.src = `img/${randomImages[index]}.png`;
+    })
+
+    console.log(imgCards)
+}
+// setTimeout(turnRandomImages, 1000);
+function createCard() {
     const card = document.createElement('div');
     const cardFront = document.createElement('img');
     const cardBack = document.createElement('img');
@@ -34,7 +77,6 @@ function createCard(img) {
     cardFront.className = 'face front';
     cardBack.className = 'face back';
 
-    cardFront.src = `img/${randomImages[0]}.png`;
     cardBack.src = 'img/card-back.png'
 
 
@@ -53,17 +95,21 @@ function sortImages(ImagesDuplicate) {
 }
 
 const loadGame = () => {
-    ImagesDuplicate.forEach((images) => {
-        console.log(images);
-        const card = createCard(images);
+    ImagesDuplicate.forEach(() => {
+        const card = createCard();
         cardContainer.appendChild(card);
 
 
 
     })
+    showImages();
 };
 
 loadGame()
+
+
+
+
 // function matchImages(img) {
 
 //     if (!firstCard) {
@@ -125,46 +171,46 @@ loadGame()
 
 
 
-// function startChronometer() {
-//     chron = setInterval(() => { tick(); }, 1000);
-// }
-// function pauseChronometer() {
-//     clearInterval(chron);
-//     showModal();
-// }
-// function tick() {
-//     sec++;
-//     if (sec >= 60) {
-//         sec = 0
-//         min++;
-//     } else if (min >= 60) {
-//         min = 0;
-//         hour++;
-//     }
-//     const format = (hour < 10 ? '0' + hour : hour) + ':' + (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
-//     timer.innerText = `Time: ${format}`;
-//     timeModal.innerText = format;
+function startChronometer() {
+    chron = setInterval(() => { tick(); }, 1000);
+}
+function pauseChronometer() {
+    clearInterval(chron);
+    showModal();
+}
+function tick() {
+    sec++;
+    if (sec >= 60) {
+        sec = 0
+        min++;
+    } else if (min >= 60) {
+        min = 0;
+        hour++;
+    }
+    const format = (hour < 10 ? '0' + hour : hour) + ':' + (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
+    timer.innerText = `Time: ${format}`;
+    timeModal.innerText = format;
 
 
-// }
+}
 
-// function clearChronometer() {
-//     clearInterval(chron);
-//     timer.innerText = `Time: 00:00:00`;
-//     sec = 0;
-//     min = 0;
-//     hour = 0;
+function clearChronometer() {
+    clearInterval(chron);
+    timer.innerText = `Time: 00:00:00`;
+    sec = 0;
+    min = 0;
+    hour = 0;
 
-// }
+}
 
-// function showModal() {
-//     modal.classList.remove('hidden-modal');
-//     btnRestart.addEventListener("click", () => {
+function showModal() {
+    modal.classList.remove('hidden-modal');
+    btnRestart.addEventListener("click", () => {
 
-//         clearChronometer();
-//         window.location.reload();
-//     });
+        clearChronometer();
+        window.location.reload();
+    });
 
-// }
+}
 
 
