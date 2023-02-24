@@ -31,7 +31,12 @@ const showImages = () => {
     divCards.forEach((div, index) => {
         div.setAttribute('data-img', randomImages[index]);
         div.addEventListener('click', () => {
-            checkImgs(div)
+            if (div.className.includes('turn')) {
+                return;
+            } else {
+                checkImgs(div)
+            }
+
 
             // if clicked the game is not starting, so call startChronometer and start the game with true.this stop in the first click and don't enter in another cards because the game is already true (started);
             if (!isGameStart) {
@@ -76,9 +81,9 @@ function sortImages(ImagesDuplicate) {
 const checkImgs = (div) => {
     //reveal two imgs
 
-    if (div.className.includes('.turn')) {
-        return
-    }
+    // if (div.className.includes('turn')) {
+    //     return;
+    // }
     if (firstCard === '') {
         div.classList.add('turn')
         firstCard = div;
@@ -88,6 +93,7 @@ const checkImgs = (div) => {
     else if (secondCard === '') {
         div.classList.add('turn')
         secondCard = div;
+
     }
 
     console.log(firstCard);
