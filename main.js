@@ -4,6 +4,7 @@ const cardContainer = document.querySelector('.card-container');
 const timeModal = document.querySelector('.time-modal');
 const modal = document.querySelector('.modal');
 let firstCard = "";
+let firstDiv = "";
 let secondCard = "";
 let sec = 0;
 let min = 0;
@@ -21,21 +22,17 @@ ImagesDuplicate = images.reduce((newArray, element) => {
 
     return newArray;
 }, []);
-console.log(ImagesDuplicate);
 const randomImages = sortImages(ImagesDuplicate);
 
 const showImages = () => {
-    debugger
     const divCards = document.querySelectorAll('.card');
     const imgCardsFront = document.querySelectorAll('.card .front');
 
-    divCards.forEach((div) => {
+    divCards.forEach((div, index) => {
+        div.setAttribute('data-img', randomImages[index]);
         div.addEventListener('click', () => {
-            div.classList.add('turn');
-            setTimeout(() => {
-                div.classList.remove('turn');
-            }, 1000)
-            // turnRandomImages(div);
+            checkImgs(div)
+
             // if clicked the game is not starting, so call startChronometer and start the game with true.this stop in the first click and don't enter in another cards because the game is already true (started);
             if (!isGameStart) {
                 startChronometer();
@@ -47,11 +44,10 @@ const showImages = () => {
     })
     imgCardsFront.forEach((img, index) => {
         img.src = `img/${randomImages[index]}.png`;
-    })
 
-    console.log(imgCardsFront)
+    })
 }
-// setTimeout(turnRandomImages, 1000);
+
 function createCard() {
     const card = document.createElement('div');
     const cardFront = document.createElement('img');
@@ -62,7 +58,6 @@ function createCard() {
     cardBack.className = 'face back';
 
     cardBack.src = 'img/card-back.png'
-
 
     card.appendChild(cardFront);
     card.appendChild(cardBack);
@@ -78,13 +73,69 @@ function sortImages(ImagesDuplicate) {
     return ImagesDuplicate;
 }
 
+const checkImgs = (div) => {
+    //reveal two imgs
+
+    if (div.className.includes('.turn')) {
+        return
+    }
+    if (firstCard === '') {
+        div.classList.add('turn')
+        firstCard = div;
+
+    }
+
+    else if (secondCard === '') {
+        div.classList.add('turn')
+        secondCard = div;
+    }
+
+    console.log(firstCard);
+    console.log(secondCard);
+
+    //compare two imgs
+
+    let firstImg = firstCard.getAttribute('data-img');
+    let secondImg = secondCard ? secondCard.getAttribute('data-img') : '';
+
+    if (firstImg && secondImg) {
+        if (firstImg === secondImg) {
+            firstCard.classList.add('disabled');
+            secondCard.classList.add('disabled');
+            checkEndGame()
+            firstCard = "";
+            secondCard = "";
+        } else {
+            setTimeout(() => {
+                firstCard.classList.remove('turn');
+                secondCard.classList.remove('turn');
+                firstCard = "";
+                secondCard = "";
+            }, 500)
+
+        }
+    } else if (firstImg !== secondImg && secondImg !== "") {
+        setTimeout(() => {
+            div.classList.remove('turn');
+        }, 500)
+        firstCard = "";
+        secondCard = "";
+    }
+}
+
+const checkEndGame = () => {
+
+    const disableCards = document.querySelectorAll('.disabled');
+
+    if (disableCards.length === ImagesDuplicate.length) {
+        pauseChronometer()
+    }
+};
+
 const loadGame = () => {
     ImagesDuplicate.forEach(() => {
         const card = createCard();
         cardContainer.appendChild(card);
-
-
-
     })
     showImages();
 };
@@ -92,46 +143,7 @@ const loadGame = () => {
 loadGame()
 
 
-
-
-// function matchImages(img) {
-
-//     if (!firstCard) {
-//         firstCard = img.src;
-//         setTimeout(() => {
-//             img.setAttribute('src', 'img/card-back.png');
-
-//         }, 1000)
-//         return false;
-
-//     }
-//     secondCard = img.src;
-
-//     if (firstCard !== secondCard) {
-//         setTimeout(() => {
-//             img.setAttribute('src', 'img/card-back.png');
-//         }, 1000)
-//         firstCard = "";
-//         secondCard = "";
-
-
-//     } else if (firstCard === secondCard) {
-//         console.log('test', firstCard, secondCard)
-//         isMatch = true;
-//         counterMatch = counterMatch + 1;
-//         console.log(counterMatch)
-//         if (counterMatch === ImagesDuplicate.length) {
-//             alert('finished');
-//             pauseChronometer()
-
-//         }
-//     }
-
-//     console.log(firstCard)
-//     console.log(secondCard)
-
-// }
-
+//chronometer functions 
 
 function startChronometer() {
     chron = setInterval(() => { tick(); }, 1000);
