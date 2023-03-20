@@ -10,4 +10,5 @@ CSS;
 
 javaScript;
 
-Live project:https://vercel.com/gardeniaoliveira/memory-game-with-js
+Live project:
+https://memory-game-with-js-nine.vercel.app/
